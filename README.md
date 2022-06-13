@@ -12,13 +12,13 @@ We want to be able to build a database of biological strategies grouped by funct
 
 ### What Are The Inputs & Outputs?
 
-1. We want to first extract key phrases before summarizing. We do this using Rake (a natural language toolkit). The sample input text we put into the text extraction/summarization tool: 
+1. We want to first extract key phrases before summarizing. We do this using Rake (a natural language toolkit). The sample input text for text extraction/summarization tool: 
 
 "While scanning the water for these hydrodynamic signals at a swimming speed in the order of meters per second, the seal keeps its long and flexible whiskers in an abducted position, largely perpendicular to the swimming direction. Remarkably, the whiskers of harbor seals possess a specialized undulated surface structure, the function of which was, up to now, unknown. Here, we show that this structure effectively changes the vortex street behind the whiskers and reduces the vibrations that would otherwise be induced by the shedding of vortices from the whiskers (vortex-induced vibrations). Using force measurements, flow measurements, and numerical simulations, we find that the dynamic forces on harbor seal whiskers are, by at least an order of magnitude, lower than those on sea lion (Zalophus californianus) whiskers, which do not share the undulated structure. The results are discussed in the light of pinniped sensory biology and potential biomimetic applications”. 
 
 2. The output result for text extraction:
 
-['specialized undulated surface structure',
+"['specialized undulated surface structure',
  'structure effectively changes',
  'potential biomimetic applications',
  'pinniped sensory biology',
@@ -27,11 +27,11 @@ We want to be able to build a database of biological strategies grouped by funct
  'using force measurements',
  'vortex street behind',
  'induced vibrations ).',
- 'harbor seal whiskers']
+ 'harbor seal whiskers']"
 
 3. The second output result for text summarization:
 
-Using force measurements, flow measurements and numerical simulations, we find that the dynamic forces on harbor seal whiskers are, by at least an order of magnitude, lower than those on sea lion (Zalophus californianus) whiskers, which do not share the undulated structure. 
+"Using force measurements, flow measurements and numerical simulations, we find that the dynamic forces on harbor seal whiskers are, by at least an order of magnitude, lower than those on sea lion (Zalophus californianus) whiskers, which do not share the undulated structure." 
 
 I combined both the output results in the last line of code so we can do a side-by-side comparison to understand the functionalities of the two different methods. We want to include text summarization, so we perform an extraction-based approach where we search the document for key sentences and phrases. 
 
@@ -54,11 +54,14 @@ We have yet to test all of AskNature's curated list of biological strategies. Th
 - Go to the directory you git cloned this repository in. 
 - Click on "Rake_nltk_extracttxt.ipynb". You can run all lines of code and insert the text where it says "txt" (this is found in the first code block). The first code block shows what packages that need to be installed when running the entire notebook. Please install the packages first, before running the notebook.
 
-Feel free to try optimizing this code if you would like and testing AskNature's curated list of biological startegies. This code is still a work in progress. If there are any reccomended changes you would like to make, please create an "Issue" on GitHub (For more information please refer to "Where Can Users Get Help" section of this README). 
+Feel free to try optimizing this code and test AskNature's curated list of biological startegies. This code is still a work in progress. 
+
+If there are any reccomended changes you would like to make, please create an "Issue" on GitHub (For more information please refer to "Where Can Users Get Help" section of this README). 
 
 ## Where Can Users Get Help?
 
 You can create a "New Issue" in the issues section of GitHub. Please refer to the pictures below for the steps on how to create an issue.
+
 1. On the top bar on GitHub click on "Issues":
 <img width="440" alt="Screen Shot 2022-06-13 at 10 09 56 AM" src="https://user-images.githubusercontent.com/85698928/173408163-7ccca11d-c93e-41f8-a6be-205712bfc50e.png">
 2. You should be taken to the page below. Click on "New Issue".
