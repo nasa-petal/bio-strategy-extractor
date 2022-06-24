@@ -84,6 +84,7 @@ You can create a "New Issue" in the issues section of GitHub. Please refer to th
 - https://toolbox.biomimicry.org/methods/abstract/
 - https://towardsdatascience.com/simple-text-summarization-in-python-bdf58bfee77f
 - https://towardsdatascience.com/extracting-keyphrases-from-text-rake-and-gensim-in-python-eefd0fad582f
+- https://towardsdatascience.com/understand-text-summarization-and-create-your-own-summarizer-in-python-b26a9f09fc70
 
 [^1]: This is AskNature's curated list of biological strategies: https://asknature.org/biological-strategies/
 [^2]: You should be able to download Anaconda for free here: https://www.anaconda.com/products/distribution
