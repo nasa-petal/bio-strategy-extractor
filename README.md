@@ -35,11 +35,18 @@ We want to be able to build a database of biological strategies grouped by funct
 
 I combined both the output results in the last line of code so we can do a side-by-side comparison to understand the functionalities of the two different methods. We want to include text summarization, so we perform an extraction-based approach where we search the document for key sentences and phrases. 
 
+[UPDATE] The above are old results. These are the new results for text summarization including key features of RAKE:
+"Using force measurements, flow measurements and numerical simulations, we find that the dynamic forces on harbor seal whiskers are, by at least an order of magnitude, lower than those on sea lion (Zalophus californianus) whiskers, which do not share the undulated structure. Remarkably, the whiskers of harbor seals possess a specialized undulated surface structure, the function of which was, up to now, unknown"
+
+We can conclude that this uses a lot more phrases in its text. The next step is to automate these results and have a neural network train on it.
+
 ### Were The Outputs Expected?
 
 The outputs are expected, but more work can be done to combine the two pieces of code so that the text extraction and summarization of biological strategies accurately do what is expected. This is the expected sentence for this example: 
 
 " "A small diameter fiber with an undulated surface structure reduces vibrations caused by drag forces" which belongs to the functions "Move, Active Movement, Actively move through liquid" and "Maintain structural integrity, Manage Structural Forces, Manage Drag/Turbulence" ".
+
+[UPDATE] The results were what was to be expected. The main goal now is to incorporate this piece into a neural network.
 
 ### What Improvements Could Be Made?
 
