@@ -9,8 +9,10 @@
 import json
 import torch
 import numpy as np
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer,  AutoModelForTokenClassification, DataCollatorForTokenClassification, TrainingArguments, Trainer
 import tokenizations
+import datasets
+
 
 def match_span_to_tokenizer(ground, split, span):
     """Converts a span to the tokenizer's tokenization.
@@ -21,7 +23,7 @@ def match_span_to_tokenizer(ground, split, span):
     a2b, b2a = tokenizations.get_alignments(ground, split)
     adjusted = []
     for idx, val in enumerate(b2a):
-        if val[0] in range(span[0], span[1]+1):
+        if val and val[0] in range(span[0], span[1]+1):
             adjusted.append(idx)
     if adjusted:
         return [adjusted[0]+1, adjusted[len(adjusted)-1]+1]
@@ -39,7 +41,7 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
     """
     dict = {
             'Train': {
-                'sentences':[],
+                # 'sentences':[],
                 'labels':[]
             }
         }
@@ -63,16 +65,45 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
                     span = match_span_to_tokenizer(sentence.split(), tokens, span)
                     if span:
                         label[span[0]:span[1]] = 1
-            dict['Train']['sentences'].append(tokens)
+            # print(label)
+            
+            # dict['Train']['sentences'].append(tokens)
             dict['Train']['labels'].append(label)
     dict['Train']['labels'] = np.array(dict['Train']['labels'])
-    batch['labels'] = torch.tensor(dict['Train']['labels'])
-
+    batch['labels'] = torch.tensor(dict['Train']['labels']).long()
+    # print(batch['labels'])
     return batch
 
+def create_train_test_dict(train, test) :
+    dict = datasets.DatasetDict(
+        {
+        'train':datasets.Dataset.from_dict(
+            {'attention_mask':train['attention_mask'],'input_ids':train['input_ids'],'token_type_ids':train['token_type_ids'],'labels':train['labels']}),
+        'test':datasets.Dataset.from_dict(
+            {'attention_mask':test['attention_mask'],'input_ids':test['input_ids'],'token_type_ids':test['token_type_ids'],'labels':test['labels']})
+        }
+    )
+    return dict
 
 checkpoint = "allenai/scibert_scivocab_cased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-data = json.load(open("data/dev_set.json"))
+train_data = json.load(open("data/dev_set.json"))
+test_data = json.load(open("data/test_set.json"))
 
-batch = FOBIE_preprocess(checkpoint, tokenizer, data)
+tokenized_dataset = create_train_test_dict(
+    FOBIE_preprocess(checkpoint, tokenizer, train_data), 
+    FOBIE_preprocess(checkpoint, tokenizer, test_data)
+)
+
+
+# training_args= TrainingArguments("SciBERT-FOBIE", evaluation_strategy="epoch")
+# model = AutoModelForTokenClassification.from_pretrained(checkpoint, num_labels=2)
+
+# trainer = Trainer (
+#     model,
+#     training_args,
+#     train_dataset=tokenized_dataset['train'],
+#     eval_dataset=tokenized_dataset['test'],
+#     tokenizer=tokenizer
+# )
+# trainer.train()
