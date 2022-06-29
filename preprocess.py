@@ -40,10 +40,8 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
             'labels': (torch.tensor)
     """
     dict = {
-            'Train': {
-                # 'sentences':[],
-                'labels':[]
-            }
+        'labels': [],
+        'tokens': []
         }
     sentences = []
     for source_doc_id in data:
@@ -51,13 +49,14 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             sentences.append(sentence)
 
-    batch = tokenizer(sentences, padding=True, truncation=False, return_tensors='pt')
-
+    batch = tokenizer(sentences)
+    # print(batch.tokens())
+    # print(batch)
     for source_doc_id in data:
         for sentence_id in data[source_doc_id]:
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             tokens = tokenizer.tokenize(sentence)
-            label = np.zeros(len(batch['input_ids'][0]))
+            label = np.zeros(len(tokens))
             for sentence_modifier_id in data[source_doc_id][sentence_id]['annotations']['modifiers']:
                 for arg_id in data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id]:
                     arg_attributes = data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id][arg_id]
@@ -65,23 +64,30 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
                     span = match_span_to_tokenizer(sentence.split(), tokens, span)
                     if span:
                         label[span[0]:span[1]] = 1
-            # print(label)
-            
             # dict['Train']['sentences'].append(tokens)
-            dict['Train']['labels'].append(label)
-    dict['Train']['labels'] = np.array(dict['Train']['labels'])
-    batch['labels'] = torch.tensor(dict['Train']['labels']).long()
-    # print(batch['labels'])
-    return batch
+            # print(len(label))
+            # print(len(tokens))
+            dict['labels'].append(label)
+            dict['tokens'].append(tokens)
+    # dict['Train']['labels'] = np.array(dict['Train']['labels'])
+    # print(dict)
+    return dict
 
 def create_train_test_dict(train, test) :
     dict = datasets.DatasetDict(
         {
         'train':datasets.Dataset.from_dict(
-            {'attention_mask':train['attention_mask'],'input_ids':train['input_ids'],'token_type_ids':train['token_type_ids'],'labels':train['labels']}),
+            {'tokens':train['tokens'], 'labels':train['labels']}),
         'test':datasets.Dataset.from_dict(
-            {'attention_mask':test['attention_mask'],'input_ids':test['input_ids'],'token_type_ids':test['token_type_ids'],'labels':test['labels']})
+            {'tokens':test['tokens'], 'labels':test['labels']})
         }
+        
+        # {
+        # 'train':datasets.Dataset.from_dict(
+        #     {'attention_mask':train['attention_mask'],'input_ids':train['input_ids'],'token_type_ids':train['token_type_ids'],'labels':train['labels']}),
+        # 'test':datasets.Dataset.from_dict(
+        #     {'attention_mask':test['attention_mask'],'input_ids':test['input_ids'],'token_type_ids':test['token_type_ids'],'labels':test['labels']})
+        # }
     )
     return dict
 
@@ -90,12 +96,13 @@ tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 train_data = json.load(open("data/dev_set.json"))
 test_data = json.load(open("data/test_set.json"))
 
+test = FOBIE_preprocess(checkpoint, tokenizer, train_data)
 tokenized_dataset = create_train_test_dict(
     FOBIE_preprocess(checkpoint, tokenizer, train_data), 
     FOBIE_preprocess(checkpoint, tokenizer, test_data)
 )
 
-
+# print (tokenized_dataset['train']['labels'])
 # training_args= TrainingArguments("SciBERT-FOBIE", evaluation_strategy="epoch")
 # model = AutoModelForTokenClassification.from_pretrained(checkpoint, num_labels=2)
 
