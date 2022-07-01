@@ -18,8 +18,8 @@ from datasets import load_metric
 
 checkpoint = "allenai/scibert_scivocab_uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-train_data = json.load(open("data/train_set.json"))
-test_data = json.load(open("data/test_set.json"))
+train_data = json.load(open("SciBERT-FOBIE/data/train_set.json"))
+test_data = json.load(open("SciBERT-FOBIE/data/test_set.json"))
 tokenized_datasets = pre.create_train_test_dict(
     pre.FOBIE_preprocess(checkpoint, tokenizer, train_data), 
     pre.FOBIE_preprocess(checkpoint, tokenizer, test_data)
