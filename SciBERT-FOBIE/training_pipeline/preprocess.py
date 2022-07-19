@@ -7,10 +7,7 @@
 '''
 
 import json
-<<<<<<< HEAD
 from re import L
-=======
->>>>>>> main
 import torch
 import numpy as np
 from transformers import AutoTokenizer,  AutoModelForTokenClassification, DataCollatorForTokenClassification, TrainingArguments, Trainer
@@ -24,11 +21,8 @@ def match_span_to_tokenizer(ground, split, span):
         (list): list containing:
             [int, int]: span in tokenizer's tokenization
     """
-<<<<<<< HEAD
     ground.insert(0, "[CLS]")
     ground.append("[SEP]")
-=======
->>>>>>> main
     a2b, b2a = tokenizations.get_alignments(ground, split)
     adjusted = []
     for idx, val in enumerate(b2a):
@@ -59,24 +53,19 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
         for sentence_id in data[source_doc_id]:
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             sentences.append(sentence)
-<<<<<<< HEAD
-=======
 
->>>>>>> main
     for source_doc_id in data:
         for sentence_id in data[source_doc_id]:
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             input = tokenizer(sentence)
             label = np.zeros(len(input.tokens()))
-<<<<<<< HEAD
+
             good_sentence = True
-=======
->>>>>>> main
+
             for sentence_modifier_id in data[source_doc_id][sentence_id]['annotations']['modifiers']:
                 for arg_id in data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id]:
                     arg_attributes = data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id][arg_id]
                     span = [int(arg_attributes['span_start']), int(arg_attributes['span_end'])]
-<<<<<<< HEAD
                     if (span[0] >= len(sentence.split())):
                         good_sentence = False
                     span = match_span_to_tokenizer(sentence.split(), input.tokens(), span)
@@ -90,18 +79,7 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
                 dict['input_ids'].append(input['input_ids'])
                 dict['token_type_ids'].append(input['token_type_ids'])
                 dict['attention_mask'].append(input['attention_mask'])
-=======
-                    span = match_span_to_tokenizer(sentence.split(), input.tokens(), span)
-                    if span:
-                        label[span[0]:span[1]] = 1
-           
-            label[0] = -100
-            label[-1] = -100
-            dict['labels'].append(np.array(label))
-            dict['input_ids'].append(input['input_ids'])
-            dict['token_type_ids'].append(input['token_type_ids'])
-            dict['attention_mask'].append(input['attention_mask'])
->>>>>>> main
+
     return dict
 
 def create_train_test_dict(train, test) :
