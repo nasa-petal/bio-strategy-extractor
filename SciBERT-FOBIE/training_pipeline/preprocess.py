@@ -53,12 +53,15 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
         for sentence_id in data[source_doc_id]:
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             sentences.append(sentence)
+
     for source_doc_id in data:
         for sentence_id in data[source_doc_id]:
             sentence: str = data[source_doc_id][sentence_id]['sentence']
             input = tokenizer(sentence)
             label = np.zeros(len(input.tokens()))
+
             good_sentence = True
+
             for sentence_modifier_id in data[source_doc_id][sentence_id]['annotations']['modifiers']:
                 for arg_id in data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id]:
                     arg_attributes = data[source_doc_id][sentence_id]['annotations']['modifiers'][sentence_modifier_id][arg_id]
@@ -76,6 +79,7 @@ def FOBIE_preprocess(checkpoint, tokenizer, data):
                 dict['input_ids'].append(input['input_ids'])
                 dict['token_type_ids'].append(input['token_type_ids'])
                 dict['attention_mask'].append(input['attention_mask'])
+
     return dict
 
 def create_train_test_dict(train, test) :
