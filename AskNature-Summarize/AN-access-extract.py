@@ -5,6 +5,7 @@ import re
 import keys
 
 client = SearchClient.create(keys.KEY["ID"], keys.KEY["access"])
+client.get_api_key()
 index = client.init_index('asknature_searchable_posts')
 query = '' 
 res = index.browse_objects({'query': query, 'attributesToRetrieve': ['reference_sources', 'summary']})
