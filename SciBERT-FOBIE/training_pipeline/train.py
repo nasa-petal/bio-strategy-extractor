@@ -15,11 +15,8 @@ import torch
 import training_functions
 from accelerate import Accelerator
 from datasets import load_metric
-<<<<<<< HEAD
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-=======
->>>>>>> main
 
 checkpoint = "allenai/scibert_scivocab_uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -50,11 +47,7 @@ label2id = {v: k for k, v in id2label.items()}
 model = AutoModelForTokenClassification.from_pretrained(
     checkpoint,
     id2label=id2label,
-<<<<<<< HEAD
     label2id=label2id
-=======
-    label2id=label2id,
->>>>>>> main
 )
 
 optimizer = AdamW(model.parameters(), lr=2e-5)
