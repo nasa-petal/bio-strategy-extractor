@@ -38,4 +38,4 @@ def apply_tokenization(dataset, tokenizer, max_input_length=128, max_target_leng
             )
 
         model_inputs["labels"] = labels["input_ids"]
-    return dataset.map(preprocess_function, batched=True)
+    return (dataset.map(preprocess_function, batched=True)).set_format("torch")

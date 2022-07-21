@@ -22,7 +22,6 @@ with open('../AskNature-Summarize/data/asknature-data.json') as json_file:
 # Create the train/test dictionary
 dataset = preprocess.create_train_test_dict(data, split=0.8)
 tokenized_datasets = preprocess.apply_tokenization(dataset, tokenizer)
-tokenized_datasets.set_format("torch")
 
 # Load model
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
