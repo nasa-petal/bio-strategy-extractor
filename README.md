@@ -138,7 +138,9 @@ RAKE extracted these keywords/phrases: "['23 – 160 residue length n',
 
 ### Inputs and Outputs for aspire:
 
-We now want to be able to extract key functions out of this biomimcry papers. aspire by the allenai [^3] was used to come up with a similarity model on matching fine-grained aspects of text. I have used their example demo to see if any of the abstracts (the sample Harbor Seals abstract and a couple abstracts from the golden.json file work and these are the results: 
+We now want to be able to extract key functions out of this biomimcry papers. Aspire by the allenai [^3] was used to come up with a similarity model on matching fine-grained aspects of text. I have used their example demo to see if any of the abstracts (the sample Harbor Seals abstract and a couple abstracts from the golden.json file work and these are the results. The code starts off by importing the required packages, preparing the data/example abstracts, embedding it, and visualizing the optimal transport plans for the computed sentence vectors. The resulting plots are optimal transport plans for the example pairs of abstracts.
+
+The algorithm learns fine-grained document similarity models using co-citations in the same research paper and sentence. Then the "single-match models are learned from implicit supervision in co-citation contexts" (Mysore, Cohan, Hope 2022). Finally, "multi-match models are learned by aligning aspect representations by solving an Optimal Transport problem"(Mysore, Cohan, Hope 2022). The final step here is what we are observing in the plots below: 
 
 This first one compares the Harbor Seal petalai abstract with the first golden.json abstract. The ones after compare papers within the golden.json file.
 <img width="922" alt="Screen Shot 2022-07-21 at 8 49 11 PM" src="https://user-images.githubusercontent.com/85698928/180358788-0d7aa0be-f11d-4c3d-a6a8-1a2b744b2ec7.png">
